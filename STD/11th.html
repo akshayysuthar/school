@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>11 Std</title>
+</head>
+
+<body class="text-center" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="./home.html">School</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="home.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Attendance</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./index.html">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <h1>Standard 11</h1>
+    <form id="name" >
+        <table class="container-sm ">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Roll No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody class="m-1">
+                <tr>
+                    <th scope="row">1</th>
+                    <td id="text" >Akshay Suthar</td>
+                    <td>
+                        <select name="akshay" id="akshay">
+                            <option value="">Select here</option>
+                            <option value="present">present</option>
+                            <option value="adsent">adsent</option>
+                        </select>
+
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Maan Parmar</td>
+                    <td>   <select name="maan" id="maan">
+                        <option value="">Select here</option>
+                        <option value="present">present</option>
+                        <option value="adsent">adsent</option>
+                    </select>
+
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Sachin Jangid</td>
+                    <td>   <select name="sachin" id="sachin">
+                        <option value="">Select here</option>
+                        <option value="present">present</option>
+                        <option value="adsent">adsent</option>
+                    </select>
+
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Prayag Mehta</td>
+                    <td>   <select name="prayag" id="prayag">
+                        <option value="">Select here</option>
+                        <option value="present">present</option>
+                        <option value="adsent">adsent</option>
+                    </select>
+
+                </tr>
+
+            </tbody>
+        </table>
+        <button class="w-50 mt-5 align-middle btn btn-lg btn-primary" type="submit">Save</button>
+    </form>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+</body>
+<script src="https://unpkg.com/@supabase/supabase-js"></script>
+<script>
+    const { createClient } = supabase
+    supabase = createClient("https://bunkuatctzqmzkynqguw.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bmt1YXRjdHpxbXpreW5xZ3V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTY5Mjg0NzMsImV4cCI6MTk3MjUwNDQ3M30.PH6NyUZ_NbaQEmEZGuwMJ3uRpnBaAjz3oDPe7DXQ0ag")
+
+    const form = document.querySelector('#name')
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        const formInputs = form.querySelectorAll('select')
+
+        let submision = {}
+
+        formInputs.forEach(element => {
+            const { value, name } = element
+            if (value) {
+                submision[name] = value
+            }
+        })
+
+        const { error } = await supabase.from('11std').insert([submision], { returning: 'minimal' })
+
+        if (error) {
+            alert('There was an error please try again')
+        } else {
+            alert('Thanks for contacting us')
+        }
+
+        formInputs.forEach(element => element.value = '')
+
+    })
+</script>
+
+</html>

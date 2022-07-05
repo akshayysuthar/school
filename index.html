@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="signin.css" rel="stylesheet">
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+
+    <title>School Login</title>
+  </head>
+  <body class="text-center contact-form">
+    <main class="form-signin w-100 m-auto">
+      <form  id="school" >
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  
+        <div class="form-floating">
+          <input class="form-control" required  for="email" type="text" name="email"  placeholder="name@example.com">
+          <label for="floatingInput">Email address</label>
+          <br>
+        </div>
+        <div class="form-floating">
+          <input  class="form-control" required  for="pass" type="text" name="pass" placeholder="Password">
+          <label for="floatingPassword">Password</label><br>
+        </div>
+  
+        
+          <a href="./home.html" class="w-100 btn btn-lg btn-primary" id="btn" type="submit">Sign in</a>
+        
+        <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+      </form>
+    </main>
+  </body>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script>
+      const { createClient } = supabase
+      supabase = createClient("https://bunkuatctzqmzkynqguw.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1bmt1YXRjdHpxbXpreW5xZ3V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTY5Mjg0NzMsImV4cCI6MTk3MjUwNDQ3M30.PH6NyUZ_NbaQEmEZGuwMJ3uRpnBaAjz3oDPe7DXQ0ag")
+            
+      const form = document.querySelector('#school')
+      form.addEventListener('submit', async (event) => {
+          event.preventDefault()
+
+          const formInputs = form.querySelectorAll('input, select, textarea')
+
+          let submision = {}
+
+          formInputs.forEach(element => {
+            const { value, name } = element
+            if (value) {
+                submision[name] = value
+            }
+          })
+
+          const { error } = await supabase.from('entries').insert([submision], { returning: 'minimal'})
+
+          if (error) {
+              alert('There was an error please try again')
+          } else {
+              alert('Thanks for contacting us')
+          }
+
+          formInputs.forEach(element => element.value = '')
+
+      })
+  </script>
+</html>
